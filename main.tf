@@ -1,3 +1,17 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "3.60.0"
+    }
+  }
+}
+
+provider "azurerm" {
+  features {}
+}
+
+
 # Create Azure Resource Group
 resource "azurerm_resource_group" "example" {
   name     = var.resource_group_name
@@ -106,4 +120,6 @@ resource "azurerm_application_gateway" "example" {
     backend_address_pool_name    = "backend_address_pool_name"
     backend_http_settings_name   = "backend_http_settings_name"
   }
+
+  
 }
