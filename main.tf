@@ -12,8 +12,8 @@ resource "azurerm_virtual_network" "example" {
   resource_group_name = azurerm_resource_group.example.name
 }
 
-# Create Web Apps
-resource "azurerm_app_service_plan" "example" {
+# Create App Service Plan
+resource "azurerm_service_plan" "example" {
   name                = var.app_service_plan_name
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
@@ -24,12 +24,13 @@ resource "azurerm_app_service_plan" "example" {
   }
 }
 
+# Create Web Apps
 resource "azurerm_app_service" "example" {
   count                = 2
   name                 = "${var.web_app_name}-${count.index}"
   location             = azurerm_resource_group.example.location
   resource_group_name  = azurerm_resource_group.example.name
-  app_service_plan_id  = azurerm_app_service_plan.example.id
+  app_service_plan_id  = azurerm_service_plan.example.id
 
   site_config {
     dotnet_framework_version = "v4.0"
@@ -47,5 +48,14 @@ resource "azurerm_application_gateway" "example" {
     name     = "Standard_v2"
     tier     = "Standard_v2"
     capacity = 2
+  }
+
+  frontend_ip_configuration {
+    name                  = "frontend_ip_configuration_name"
+    public_ip_address_id  = azurerm_public_ip.example.id
+  }
+
+  backend_address_pool {
+    name = "backend_address_pool_name"
   }
 }
