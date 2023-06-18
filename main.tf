@@ -9,7 +9,7 @@ terraform {
 
 provider "azurerm" {
   features {}
-   cli_exec_path =  "/usr/bin/az"
+ # cli_exec_path =  "/usr/bin/az"
 }
 
 
